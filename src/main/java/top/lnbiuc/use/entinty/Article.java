@@ -23,25 +23,25 @@ public class Article
 {
     
     @TableId
-    public String articleId;
+    private String articleId;
     
-    public String authorId;
+    private String authorId;
     
-    public String title;
+    private String title;
     
-    public String introduction;
+    private String introduction;
     
-    public Date releaseTime;
+    private Date releaseTime;
     
-    public Date updateTime;
+    private Date updateTime;
     
-    public Boolean setTop;
+    private Boolean setTop;
     
-    public Boolean deleted;
+    private Boolean deleted;
     
-    public Integer visitsCount;
+    private Integer visitsCount;
     
-    public Integer likeCount;
+    private Integer likeCount;
     
-    public String bgImg;
+    private String bgImg;
 }

@@ -1,12 +1,16 @@
 package top.lnbiuc.use.controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.annotation.*;
 import top.lnbiuc.use.common.RespData;
 import top.lnbiuc.use.entinty.Article;
+import top.lnbiuc.use.modle.params.ReqParamsDemo;
 import top.lnbiuc.use.service.ArticleService;
 
+import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -18,6 +22,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("test")
+@Slf4j
 public class TestController
 {
     
@@ -33,5 +38,23 @@ public class TestController
     {
         List<Article> articles = articleService.getAllArticles();
         return RespData.success(articles);
+    }
+    
+    @PostMapping("add")
+    public RespData<String> add(@Valid @RequestBody ReqParamsDemo params
+            , BindingResult bindingResult)
+    {
+        if (bindingResult.hasErrors())
+        {
+            List<ObjectError> errors = bindingResult.getAllErrors();
+            errors.forEach(p ->
+            {
+                FieldError fieldError = (FieldError) p;
+                log.error("Invalid Parameter : object - {},field - {},errorMessage - {}", fieldError.getObjectName(), fieldError.getField(), fieldError.getDefaultMessage());
+            });
+            return RespData.fail("参数格式有误");
+        }
+        log.info(params.toString());
+        return RespData.success();
     }
 }
